@@ -1,16 +1,7 @@
 from flask import Flask
-import requests
+from helpers import get_pokemon_by_name
 
 app = Flask(__name__)
-
-
-pokemon_creatures = {
-    "bulbasaur": "dinosaur",
-    "charmander": "reptile",
-    "pikachu": "rodent",
-    "eevee": "fox",
-    "diglett": "mole"
-}
 
 
 @app.get("/")
@@ -20,8 +11,7 @@ def pokemon_list():
 
 @app.get("/<pokemon_name>")
 def pokemon_data(pokemon_name):
-    response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}")
-    pokemon = response.json()
+    pokemon = get_pokemon_by_name(pokemon_name)
     # creature = pokemon_creatures.get(pokemon_name)
     return f"This is {pokemon['name']}. \n" \
            f"Height: {pokemon['height']}. \n" \
